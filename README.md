@@ -7,7 +7,7 @@ This program sends IR signals using Arduino Ethernet corresponding to get reques
 ## Version - 1.00
 
 ## Folders: 
-1. Schematic - Schematic Circuit Diagram
+1. Design - Schematic Circuit Diagram
 2. Implementation - Source code
 3. Testing - Output Screenshots
 
