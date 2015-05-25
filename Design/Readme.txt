@@ -1,1 +1,0 @@
-Fritzing Tool Schematic diagram
