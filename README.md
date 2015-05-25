@@ -33,5 +33,5 @@ This can be done using a loopback test in Windows Hyperterminal.
 Screenshots provided in the Testing folder
 
 ## Contributors
-Arun Sachidanandan - 54781 <br />
-Muhammad Umair - 52883
+Arun Sachidanandan  <br />
+Muhammad Umair 
