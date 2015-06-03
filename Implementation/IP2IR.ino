@@ -14,7 +14,6 @@
  and initiates IR led to send IR codes corresponding 
  to the particular get requests.
 
- 
  */
 
 //Power on code for Sony devices
@@ -36,6 +35,7 @@ EthernetServer server(80);
 void setup()
 {
   Serial.begin(9600);
+  pinMode(13, OUTPUT);
   
   // Starting the Ethernet connection and the server:
   Ethernet.begin(mac, ip);
@@ -53,28 +53,60 @@ void loop() {
     
     // Checking for end of HTTP request
     boolean currentLineIsBlank = true;
-    while (client.connected()) {
+    String buffer = "",msg="",time="";
+    int index1,index2,index3;
+    char getArray[40] = "";
+    int len =0,i=0;
+    
+    while (client.connected()) 
+    {
       if (client.available()) {
         char c = client.read();
-        Serial.write(c);
-        if (c == '\n' && currentLineIsBlank) {
+        //Serial.write(c);
+        //Serial.print(c);
+        if (c == '\n') {
+           break;
+          // currentLineIsBlank = true;
+        }
+        
+        buffer+=c;
+        getArray[len++]=c;
+      }
+    }
+     char c;
+        Serial.println("Buffer : "+buffer);
+        Serial.println("Array : ");
+         index1=buffer.indexOf("/");
+         index2=buffer.indexOf("/",index1+1);
+         index3=buffer.indexOf("/",index2+1);
+         
+         msg = buffer.substring(index2+1,index3);
+         time = buffer.substring(index3+1,index3+3);
+         Serial.println("Msg: "+msg);
+         Serial.println("Time: "+time);
+         
           
           //Sending IR codes (switch case to be implemented)
            irsend.sendSony(POWER1, 12);
+           digitalWrite(13, HIGH);   // turn the LED on (HIGH is the voltage level)
+           delay(1000);              // wait for a second
+           digitalWrite(13, LOW);    // turn the LED off by making the voltage LOW
+           delay(1000);              // wait for a second
+           
           
           //Sending HTTP response
           client.println("HTTP/1.1 200 OK");
           client.println("Content-Type: text/html");
           client.println("Connection: close");  // the connection will be closed after completion of the response
-          client.println("Refresh: 5");  // refresh the page so that otput is constant
+          //client.println("Refresh: 5");  // refresh the page so that otput is constant
           client.println();
           client.println("<!DOCTYPE HTML>");
           client.println("<html>");
           client.println("IP2IR : ");
           client.println("IR code is being emitted");
           client.println("</html>");
-          break;
-        }
+          //break;
+        
         if (c == '\n') {
           currentLineIsBlank = true;
         }
@@ -82,11 +114,10 @@ void loop() {
           currentLineIsBlank = false;
         }
       }
-    }
+    
     // give the web browser time to receive the data
     delay(1);
     // close the connection:
     client.stop();
-    Serial.println("client disconnected");
-  }
+    //Serial.println("client disconnected");
 } 
