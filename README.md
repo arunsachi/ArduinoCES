@@ -23,7 +23,7 @@ This program sends IR signals using Arduino Ethernet corresponding to get reques
 
 ## Implementation details:
 The current implementation sends raw IR code whenever a get request is received from web server. <br />
-The format of get request is :  "<ip of Arduino>/command/<code>/<repeat-time>/<frequency>."  <br />
+The format of get request is :  "ip of Arduino"/command/"code"/"repeat-time"/"frequency"  <br />
 IR output is send to PWN pin 3.
 
 ## Further Extensions possible: 
